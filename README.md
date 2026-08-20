@@ -2,7 +2,7 @@
 
 ## Integrante
 
-* **Breno Silva** — Matrícula: **a28084**
+* **Breno Silva** — Matrícula: **28084**
 
 ## Descrição
 
