@@ -1,19 +1,54 @@
 import React, { useState } from "react";
-import { Text, View, Button, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity
+} from "react-native";
 
-export default function Contador() {
-  const [contagem, setContagem] = useState(0);
+export default function App() {
+  const [contador, setContador] = useState(0);
+
+  function incrementar() {
+    setContador(contador + 1);
+  }
+
+  function decrementar() {
+    if (contador > 0) {
+      setContador(contador - 1);
+    }
+  }
+
+  function zerar() {
+    setContador(0);
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Contagem Atual:</Text>
+      <Text style={styles.titulo}>Contador</Text>
 
-      <Text style={styles.numero}>{contagem}</Text>
+      <Text style={styles.contador}>{contador}</Text>
 
-      <Button
-        title="Incrementar +1"
-        onPress={() => setContagem(contagem + 1)}
-      />
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={incrementar}
+      >
+        <Text style={styles.textoBotao}>Incrementar (+1)</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={decrementar}
+      >
+        <Text style={styles.textoBotao}>Decrementar (-1)</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={zerar}
+      >
+        <Text style={styles.textoBotao}>Zerar</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -23,16 +58,36 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ffffff"
+    backgroundColor: "#e0f7fa"
   },
+
   titulo: {
-    fontSize: 20,
-    color: "#333333"
-  },
-  numero: {
-    fontSize: 48,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#4caf50",
-    marginBottom: 20
+    color: "#00695c",
+    marginBottom: 10
+  },
+
+  contador: {
+    fontSize: 50,
+    fontWeight: "bold",
+    color: "#00695c",
+    marginBottom: 30
+  },
+
+  botao: {
+    backgroundColor: "#00695c",
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 12,
+    marginVertical: 8,
+    width: 220,
+    alignItems: "center"
+  },
+
+  textoBotao: {
+    color: "#ffffff",
+    fontSize: 17,
+    fontWeight: "bold"
   }
 });
