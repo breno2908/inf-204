@@ -1,9 +1,16 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+
+import ItemTarefa from "./ItemTarefa";
 
 export default function App() {
-  // Criando um Array de Objetos em JavaScript puro
-  const tarefas = [
+  const [tarefas, setTarefas] = useState([
     { id: 1, descricao: "Estudar ES6+", concluida: true },
     { id: 2, descricao: "Configurar ambiente Expo", concluida: true },
     {
@@ -16,30 +23,65 @@ export default function App() {
       descricao: "Finalizar Roteiro de Pratica 02",
       concluida: false,
     },
-  ];
+  ]);
+
+  // Filtra apenas as tarefas pendentes
+  const tarefasPendentes = tarefas.filter(
+    (tarefa) => !tarefa.concluida
+  );
+
+  function adicionarTarefa() {
+    const novaTarefa = {
+      id: tarefas.length + 1,
+      descricao: `Nova tarefa ${tarefas.length + 1}`,
+      concluida: false,
+    };
+
+    // Spread Operator
+    setTarefas([...tarefas, novaTarefa]);
+  }
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.titulo}>Lista de Tarefas</Text>
 
       {tarefas.map((tarefa) => (
-        <View key={tarefa.id} style={styles.card}>
-          <Text style={styles.textoTarefa}>
-            {tarefa.concluida ? "[OK] " : "[PENDENTE] "}
-            {tarefa.descricao}
-          </Text>
-        </View>
+        <ItemTarefa
+          key={tarefa.id}
+          tarefa={tarefa}
+        />
       ))}
-    </View>
+
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={adicionarTarefa}
+      >
+        <Text style={styles.textoBotao}>
+          Adicionar Nova Tarefa
+        </Text>
+      </TouchableOpacity>
+
+      <Text style={styles.subtitulo}>
+        Tarefas Pendentes
+      </Text>
+
+      {tarefasPendentes.map((tarefa) => (
+        <ItemTarefa
+          key={`pendente-${tarefa.id}`}
+          tarefa={tarefa}
+        />
+      ))}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#f5f5f5",
     paddingTop: 50,
     paddingHorizontal: 20,
+    paddingBottom: 30,
   },
 
   titulo: {
@@ -49,19 +91,25 @@ const styles = StyleSheet.create({
     color: "#20325a",
   },
 
-  card: {
-    backgroundColor: "#ffffff",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+  subtitulo: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 30,
+    marginBottom: 15,
+    color: "#20325a",
   },
 
-  textoTarefa: {
+  botao: {
+    backgroundColor: "#20325a",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+  },
+
+  textoBotao: {
+    color: "#ffffff",
     fontSize: 16,
-    color: "#333",
+    fontWeight: "bold",
   },
 });
