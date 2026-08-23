@@ -1,54 +1,35 @@
-import React, { useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity
-} from "react-native";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  const [contador, setContador] = useState(0);
-
-  function incrementar() {
-    setContador(contador + 1);
-  }
-
-  function decrementar() {
-    if (contador > 0) {
-      setContador(contador - 1);
-    }
-  }
-
-  function zerar() {
-    setContador(0);
-  }
+  // Criando um Array de Objetos em JavaScript puro
+  const tarefas = [
+    { id: 1, descricao: "Estudar ES6+", concluida: true },
+    { id: 2, descricao: "Configurar ambiente Expo", concluida: true },
+    {
+      id: 3,
+      descricao: "Entender o funcionamento do JSX",
+      concluida: false,
+    },
+    {
+      id: 4,
+      descricao: "Finalizar Roteiro de Pratica 02",
+      concluida: false,
+    },
+  ];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Contador</Text>
+      <Text style={styles.titulo}>Lista de Tarefas</Text>
 
-      <Text style={styles.contador}>{contador}</Text>
-
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={incrementar}
-      >
-        <Text style={styles.textoBotao}>Incrementar (+1)</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={decrementar}
-      >
-        <Text style={styles.textoBotao}>Decrementar (-1)</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={zerar}
-      >
-        <Text style={styles.textoBotao}>Zerar</Text>
-      </TouchableOpacity>
+      {tarefas.map((tarefa) => (
+        <View key={tarefa.id} style={styles.card}>
+          <Text style={styles.textoTarefa}>
+            {tarefa.concluida ? "[OK] " : "[PENDENTE] "}
+            {tarefa.descricao}
+          </Text>
+        </View>
+      ))}
     </View>
   );
 }
@@ -56,38 +37,31 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e0f7fa"
+    backgroundColor: "#f5f5f5",
+    paddingTop: 50,
+    paddingHorizontal: 20,
   },
 
   titulo: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "bold",
-    color: "#00695c",
-    marginBottom: 10
+    marginBottom: 20,
+    color: "#20325a",
   },
 
-  contador: {
-    fontSize: 50,
-    fontWeight: "bold",
-    color: "#00695c",
-    marginBottom: 30
+  card: {
+    backgroundColor: "#ffffff",
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
 
-  botao: {
-    backgroundColor: "#00695c",
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 12,
-    marginVertical: 8,
-    width: 220,
-    alignItems: "center"
+  textoTarefa: {
+    fontSize: 16,
+    color: "#333",
   },
-
-  textoBotao: {
-    color: "#ffffff",
-    fontSize: 17,
-    fontWeight: "bold"
-  }
 });
