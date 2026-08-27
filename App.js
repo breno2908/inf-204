@@ -6,52 +6,114 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  ScrollView,
 } from "react-native";
+
+import JogoDaVelha from "./JogoDaVelha";
 
 export default function App() {
   const [nome, setNome] = useState("Joao Vitor");
+  const [seguindo, setSeguindo] = useState(false);
+
+  const perfis = [
+    {
+      id: 1,
+      nome: nome,
+      profissao: "Engenheiro de Software",
+      imagem: "https://randomuser.me/api/portraits/men/32.jpg",
+    },
+    {
+      id: 2,
+      nome: "Maria Oliveira",
+      profissao: "Designer UX/UI",
+      imagem: "https://randomuser.me/api/portraits/women/44.jpg",
+    },
+    {
+      id: 3,
+      nome: "Carlos Santos",
+      profissao: "Desenvolvedor Mobile",
+      imagem: "https://randomuser.me/api/portraits/men/46.jpg",
+    },
+  ];
 
   return (
-    <View style={styles.container}>
-      <View style={styles.cartao}>
-        <Image
-          source={{
-            uri: "https://randomuser.me/api/portraits/men/32.jpg",
-          }}
-          style={styles.avatar}
-        />
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.tituloPagina}>
+        Perfis de Usuários
+      </Text>
 
-        <Text style={styles.nomeUsuario}>{nome}</Text>
+      {perfis.map((perfil) => (
+        <View key={perfil.id} style={styles.cartao}>
+          <Image
+            source={{ uri: perfil.imagem }}
+            style={styles.avatar}
+          />
 
-        <Text style={styles.profissao}>
-          Engenheiro de Software
-        </Text>
+          <Text style={styles.nomeUsuario}>
+            {perfil.nome}
+          </Text>
 
-        <TouchableOpacity
-          style={styles.botao}
-          activeOpacity={0.7}
-          onPress={() => alert("Seguindo " + nome)}
-        >
-          <Text style={styles.textoBotao}>Seguir</Text>
-        </TouchableOpacity>
+          <Text style={styles.profissao}>
+            {perfil.profissao}
+          </Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Alterar nome..."
-          value={nome}
-          onChangeText={(texto) => setNome(texto)}
-        />
-      </View>
-    </View>
+          {perfil.id === 1 ? (
+            <TouchableOpacity
+              style={[
+                styles.botao,
+                seguindo && styles.botaoDesativado,
+              ]}
+              activeOpacity={0.7}
+              onPress={() => setSeguindo(!seguindo)}
+            >
+              <Text style={styles.textoBotao}>
+                {seguindo ? "Já Seguindo" : "Seguir"}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.botao}
+              activeOpacity={0.7}
+              onPress={() =>
+                alert("Seguindo " + perfil.nome)
+              }
+            >
+              <Text style={styles.textoBotao}>
+                Seguir
+              </Text>
+            </TouchableOpacity>
+          )}
+
+          {perfil.id === 1 && (
+            <TextInput
+              style={styles.input}
+              placeholder="Alterar nome..."
+              value={nome}
+              onChangeText={(texto) => setNome(texto)}
+            />
+          )}
+        </View>
+      ))}
+
+      <JogoDaVelha />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#F5F5F5",
-    justifyContent: "center",
     alignItems: "center",
+    paddingTop: 40,
+    paddingBottom: 40,
+  },
+
+  tituloPagina: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#14325A",
+    marginBottom: 25,
   },
 
   cartao: {
@@ -64,6 +126,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
     width: "80%",
+    marginBottom: 20,
   },
 
   avatar: {
@@ -91,6 +154,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 8,
     marginBottom: 20,
+  },
+
+  botaoDesativado: {
+    backgroundColor: "#999999",
   },
 
   textoBotao: {
