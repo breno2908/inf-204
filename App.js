@@ -1,35 +1,47 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 
 export default function App() {
-  // Criando um Array de Objetos em JavaScript puro
-  const tarefas = [
-    { id: 1, descricao: "Estudar ES6+", concluida: true },
-    { id: 2, descricao: "Configurar ambiente Expo", concluida: true },
-    {
-      id: 3,
-      descricao: "Entender o funcionamento do JSX",
-      concluida: false,
-    },
-    {
-      id: 4,
-      descricao: "Finalizar Roteiro de Pratica 02",
-      concluida: false,
-    },
-  ];
+  const [nome, setNome] = useState("Joao Vitor");
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Lista de Tarefas</Text>
+      <View style={styles.cartao}>
+        <Image
+          source={{
+            uri: "https://randomuser.me/api/portraits/men/32.jpg",
+          }}
+          style={styles.avatar}
+        />
 
-      {tarefas.map((tarefa) => (
-        <View key={tarefa.id} style={styles.card}>
-          <Text style={styles.textoTarefa}>
-            {tarefa.concluida ? "[OK] " : "[PENDENTE] "}
-            {tarefa.descricao}
-          </Text>
-        </View>
-      ))}
+        <Text style={styles.nomeUsuario}>{nome}</Text>
+
+        <Text style={styles.profissao}>
+          Engenheiro de Software
+        </Text>
+
+        <TouchableOpacity
+          style={styles.botao}
+          activeOpacity={0.7}
+          onPress={() => alert("Seguindo " + nome)}
+        >
+          <Text style={styles.textoBotao}>Seguir</Text>
+        </TouchableOpacity>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Alterar nome..."
+          value={nome}
+          onChangeText={(texto) => setNome(texto)}
+        />
+      </View>
     </View>
   );
 }
@@ -37,31 +49,62 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    backgroundColor: "#F5F5F5",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  titulo: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#20325a",
-  },
-
-  card: {
-    backgroundColor: "#ffffff",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
+  cartao: {
+    backgroundColor: "#FFFFFF",
+    padding: 30,
+    borderRadius: 15,
+    alignItems: "center",
     shadowColor: "#000",
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowRadius: 10,
+    elevation: 5,
+    width: "80%",
   },
 
-  textoTarefa: {
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: 15,
+  },
+
+  nomeUsuario: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#14325A",
+  },
+
+  profissao: {
     fontSize: 16,
-    color: "#333",
+    color: "#505050",
+    marginBottom: 20,
+  },
+
+  botao: {
+    backgroundColor: "#0064A0",
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+
+  textoBotao: {
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+
+  input: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#CCC",
+    borderRadius: 8,
+    padding: 10,
+    textAlign: "center",
   },
 });
