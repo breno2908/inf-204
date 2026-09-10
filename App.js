@@ -4,18 +4,31 @@ import {
   Text,
   View,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 
 export default function UrnaEletronica() {
-  // Estados independentes para cada candidato
   const [votosA, setVotosA] = useState(0);
   const [votosB, setVotosB] = useState(0);
   const [votosC, setVotosC] = useState(0);
 
-  // Dado derivado
+  // Estado controlado do mesário
+  const [nomeMesario, setNomeMesario] = useState("");
+
+  // Total de votos
   const totalVotos = votosA + votosB + votosC;
 
-  // Zera todos os votos
+  // Porcentagens
+  const porcentagemA =
+    totalVotos === 0 ? 0 : (votosA / totalVotos) * 100;
+
+  const porcentagemB =
+    totalVotos === 0 ? 0 : (votosB / totalVotos) * 100;
+
+  const porcentagemC =
+    totalVotos === 0 ? 0 : (votosC / totalVotos) * 100;
+
+  // Zerar a urna
   const zerarUrna = () => {
     setVotosA(0);
     setVotosB(0);
@@ -26,10 +39,24 @@ export default function UrnaEletronica() {
     <View style={styles.container}>
       <Text style={styles.titulo}>Painel de Votação</Text>
 
+      {/* Mesário */}
+      <View style={styles.mesarioContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite o nome do mesário"
+          value={nomeMesario}
+          onChangeText={setNomeMesario}
+        />
+
+        <Text style={styles.mesarioTexto}>
+          Mesário atual: {nomeMesario}
+        </Text>
+      </View>
+
       {/* Candidato A */}
       <View style={styles.candidatoContainer}>
         <Text style={styles.nomeCandidato}>
-          Candidato A: {votosA} votos
+          Candidato A: {votosA} votos - {porcentagemA.toFixed(1)}%
         </Text>
 
         <TouchableOpacity
@@ -43,7 +70,7 @@ export default function UrnaEletronica() {
       {/* Candidato B */}
       <View style={styles.candidatoContainer}>
         <Text style={styles.nomeCandidato}>
-          Candidato B: {votosB} votos
+          Candidato B: {votosB} votos - {porcentagemB.toFixed(1)}%
         </Text>
 
         <TouchableOpacity
@@ -57,7 +84,7 @@ export default function UrnaEletronica() {
       {/* Candidato C */}
       <View style={styles.candidatoContainer}>
         <Text style={styles.nomeCandidato}>
-          Candidato C: {votosC} votos
+          Candidato C: {votosC} votos - {porcentagemC.toFixed(1)}%
         </Text>
 
         <TouchableOpacity
@@ -97,7 +124,29 @@ const styles = StyleSheet.create({
   titulo: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 30,
+    marginBottom: 20,
+    color: "#14325A",
+  },
+
+  mesarioContainer: {
+    width: "100%",
+    marginBottom: 20,
+    alignItems: "center",
+  },
+
+  input: {
+    width: "100%",
+    backgroundColor: "#FFF",
+    borderWidth: 1,
+    borderColor: "#CCC",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+  },
+
+  mesarioTexto: {
+    fontSize: 16,
+    fontWeight: "bold",
     color: "#14325A",
   },
 
