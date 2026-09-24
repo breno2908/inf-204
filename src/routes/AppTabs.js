@@ -1,0 +1,47 @@
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+
+import Home from "../screens/Home";
+import Configuracoes from "../screens/Configuracoes";
+
+const Tab = createBottomTabNavigator();
+
+export default function AppTabs() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor: "#0066cc",
+        tabBarInactiveTintColor: "#777",
+
+        tabBarIcon: ({ color, size }) => {
+          let iconName;
+
+          if (route.name === "Inicio") {
+            iconName = "home";
+          } else if (route.name === "Ajustes") {
+            iconName = "settings";
+          }
+
+          return (
+            <Ionicons
+              name={iconName}
+              size={size}
+              color={color}
+            />
+          );
+        },
+      })}
+    >
+      <Tab.Screen
+        name="Inicio"
+        component={Home}
+      />
+
+      <Tab.Screen
+        name="Ajustes"
+        component={Configuracoes}
+      />
+    </Tab.Navigator>
+  );
+}
